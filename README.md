@@ -1,3 +1,13 @@
+# Building the container
+
+Building the container requires a local copy of `mozilla-unified`. This dependency is brought by the current state of the bootstrap scripts. To do this, one can use Mercurial packaged in a lightweight containter.
+
+```bash
+DEST=/path/to/clone/dest
+mkdir -p "${DEST}"
+docker run --rm -it -v "${DEST}:/src" jamesnetherton/mercurial clone https://hg.mozilla.org/mozilla-unified /src
+```
+
 # Docker - Build Firefox
 
 This Dockerfile lets you build Firefox from source without messing around installing all of the dependencies on your host.

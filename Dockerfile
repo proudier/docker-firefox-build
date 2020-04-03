@@ -1,19 +1,16 @@
-FROM ubuntu:17.04
+# 18.04 is a LTS release
+FROM ubuntu:18.04
 LABEL maintainer="James Turner"
-
-CMD ["./mach", "build"]
+LABEL contributors="Pierre Roudier"
 
 ENV SHELL /bin/bash
-
-ENV PATH="/root/.cargo/bin:${PATH}"
+ENV PATH "/root/.cargo/bin:${PATH}"
+ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && \
-    apt-get install -y wget python clang llvm
+    apt-get install -y wget python3 
 
-RUN wget -q https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O /tmp/bootstrap.py
+WORKDIR /src
+RUN ./mach bootstrap --application-choice=browser --no-interactive
 
-RUN python /tmp/bootstrap.py --application-choice=browser --no-interactive
-
-RUN mkdir -p /usr/local/src/firefox
-
-WORKDIR /usr/local/src/firefox
+CMD ["./mach", "build"]
